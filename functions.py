@@ -21,7 +21,7 @@ def trimList(bList, requirement):
 def main():
     import time;
     start = time.clock();
-    file = open("C:/users/user/Desktop/artist_lists_small.txt", "r", encoding="UTF8");
+    file = open("Artist-list.txt", "r", encoding="UTF8");
     numList = {};
     bandList = [];
     numList, bandList = readValues(file, 50);
