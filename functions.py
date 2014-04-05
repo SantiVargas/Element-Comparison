@@ -24,5 +24,19 @@ def main():
     file = open("Artist-list.txt", "r", encoding="UTF8");
     numList = {};
     bandList = [];
-    numList, bandList = readValues(file, 50);
-    print(time.clock() - start);
+    numList, bandList = readValues(file, 50);    
+    lol = [];#list of lists
+    #go through list marking off matching bands and removing lists without more than 2
+    for b in bandList:
+        temp = b.split(",");
+        tempList = [];
+        for band in numList:            
+            if band in temp:
+                tempList.append(1);
+            else:
+                tempList.append(0);
+        if tempList.count(1) > 2:
+            lol.append(tempList);
+    print ("Time Taken:", time.clock() - start);
+    print(len(lol));
+    file.close();
