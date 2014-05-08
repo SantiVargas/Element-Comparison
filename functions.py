@@ -48,14 +48,13 @@ def main():
     #y - rows or ists of multiple bands
     #x and i - columns of answers for single bands
     matchList = [];
-    for i in range(0, len(numList) - 1):
-        for x in range(i+1, len(numList) - 1):
+    for i in range(0, len(sortedBands) - 2):#subtracted 2 becasue there is no need to check the last column against itself
+        for x in range(i+1, len(sortedBands) - 1):
             matches = 0;
-            for y in range(0, len(lol) - 1):
+            for y in range(0, len(lol) - 1):#can we subtract 2 because of the trailing '\n'?
                 matches += lol[y][i] and lol[y][x];
             if matches > 50:
-                s = "" + sortedBands[i] + " and " + sortedBands[x];
-                matchList.append(s);
+                matchList.append("" + sortedBands[i] + " and " + sortedBands[x]);
 
     print ("Time Taken:", time.clock() - start);
     print ("Total Matches: ", len(matchList));
