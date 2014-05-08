@@ -18,25 +18,47 @@ def trimList(bList, requirement):
             tempList[x] = bList[x];
     return tempList;
 
+def populateBoolArrays(mainList, listToCompare):
+    listOfLists = [];
+    for line in mainList:
+        bandsInLine = line.split(",");#see the next comment 
+        tempList = [];
+        for band in listToCompare:
+            tempList.append(band in bandsInLine);#comparing band to line gives false positives. Ex: 'Queen' comapred to 'Queens' would be true
+        if tempList.count(1) > 2:
+            listOfLists.append(tempList);
+    return listOfLists;
+
 def main():
+    #timing
     import time;
     start = time.clock();
+    #file
     file = open("Artist-list.txt", "r", encoding="UTF8");
+
     numList = {};
     bandList = [];
-    numList, bandList = readValues(file, 50);    
-    lol = [];#list of lists
-    #go through list marking off matching bands and removing lists without more than 2
-    for b in bandList:
-        temp = b.split(",");
-        tempList = [];
-        for band in numList:            
-            if band in temp:
-                tempList.append(1);
-            else:
-                tempList.append(0);
-        if tempList.count(1) > 2:
-            lol.append(tempList);
+    
+    numList, bandList = readValues(file, 50);
+    sortedBands = sorted(numList);
+    
+    lol = populateBoolArrays(bandList, sortedBands);    
+            
+    #compare bands
+    #y - rows or ists of multiple bands
+    #x and i - columns of answers for single bands
+    matchList = [];
+    for i in range(0, len(numList) - 1):
+        for x in range(i+1, len(numList) - 1):
+            matches = 0;
+            for y in range(0, len(lol) - 1):
+                matches += lol[y][i] and lol[y][x];
+            if matches > 50:
+                s = "" + sortedBands[i] + " and " + sortedBands[x];
+                matchList.append(s);
+
     print ("Time Taken:", time.clock() - start);
-    print(len(lol));
+    print ("Total Matches: ", len(matchList));
+    print ("Match List:");
+    print (matchList);
     file.close();
